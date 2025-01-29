@@ -1,0 +1,30 @@
+version: "3"
+services:
+  gibbon:
+    image: tendomart/gibbon:latest
+    container_name: gibbon
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    volumes:
+      - my-gibbon:/var/www/gibbon.local/
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - '3307:3307'
+    volumes:
+      - my-db:/var/lib/mysql
+
+volumes:
+  my-db:
+  my-gibbon:
